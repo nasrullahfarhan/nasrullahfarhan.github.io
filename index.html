@@ -1,268 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenoPets - Magical Pet Shop</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Bubblegum Sans', 'Comic Sans MS', 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZenoPets - Your Magical Pet Shop</title>
 
-        @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
-        body {
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
 
-        .container {
-            text-align: center;
-            z-index: 3;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Comic Neue', cursive;
+    }
 
-        h1 {
-            font-size: 5rem;
-            color: #fff;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
-            margin-bottom: 40px;
-            animation: glow 2s ease-in-out infinite alternate, bounce 3s infinite;
-        }
+    body {
+      background: url('https://cdn.dribbble.com/userupload/21541289/file/original-deb7f48b585c2d38e5955dc5ce100b9c.gif') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        /* Shop Now Button */
-        .shop-now-btn {
-            background: linear-gradient(45deg, #ff1e56, #ffac41);
-            color: #fff;
-            font-size: 2.5rem;
-            padding: 20px 60px;
-            border: none;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            z-index: 1;
-        }
+    /* Semi-transparent overlay for readability */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
 
-        .shop-now-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 150%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-            transition: 0.6s;
-            z-index: -1;
-        }
+    /* Loader styles */
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease;
+    }
 
-        .shop-now-btn:hover::before {
-            left: 150%;
-        }
+    .loader-container.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-        .shop-now-btn:hover {
-            transform: scale(1.2) rotate(5deg);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-        }
+    .loader {
+      --path: #fff;
+      --dot: #ff69b4;
+      --duration: 2s;
+      width: 44px;
+      height: 44px;
+      position: relative;
+      display: inline-block;
+      margin: 0 16px;
+    }
 
-        .shop-now-btn::after {
-            content: '✨';
-            position: absolute;
-            font-size: 1.5rem;
-            top: -10px;
-            right: -10px;
-            animation: sparkle 1.5s infinite;
-        }
+    .loader:before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      position: absolute;
+      display: block;
+      background: var(--dot);
+      top: 37px;
+      left: 19px;
+      transform: translate(-18px, -18px);
+      animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
 
-        /* 2D Pet Animations */
-        .pet {
-            position: absolute;
-            z-index: 2;
-        }
+    .loader svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
-        .cat {
-            width: 140px;
-            height: 140px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#f7cac9"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>') no-repeat;
-            background-size: contain;
-            animation: moveCat 12s infinite linear, jump 1.2s infinite, blink 3s infinite;
-        }
+    .loader svg rect,
+    .loader svg polygon,
+    .loader svg circle {
+      fill: none;
+      stroke: var(--path);
+      stroke-width: 10px;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
 
-        .dog {
-            width: 160px;
-            height: 160px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#8b5523"/><path d="M20 30 L30 10 L40 30" fill="#fff"/><path d="M60 30 L70 10 L80 30" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M70 70 L80 80" stroke="#333" stroke-width="3" transform="rotate(45 75 75)"/></svg>') no-repeat;
-            background-size: contain;
-            animation: moveDog 14s infinite linear, wagTail 0.6s infinite, bounceDog 1.5s infinite;
-        }
+    .loader svg polygon {
+      stroke-dasharray: 145 76 145 76;
+      stroke-dashoffset: 0;
+      animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
 
-        .cat1 { top: 15%; left: -200px; animation-delay: 0s; }
-        .cat2 { top: 65%; left: -200px; animation-delay: 3s; }
-        .dog1 { bottom: 15%; right: -200px; animation-delay: 1s; }
-        .dog2 { bottom: 35%; right: -200px; animation-delay: 4s; }
+    .loader svg rect {
+      stroke-dasharray: 192 64 192 64;
+      stroke-dashoffset: 0;
+      animation: pathRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
 
-        /* Advanced Animation Keyframes */
-        @keyframes moveCat {
-            0% { transform: translateX(0) rotate(0deg); }
-            50% { transform: translateX(75vw) rotate(5deg); }
-            100% { transform: translateX(150vw) rotate(0deg); }
-        }
+    .loader svg circle {
+      stroke-dasharray: 150 50 150 50;
+      stroke-dashoffset: 75;
+      animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
 
-        @keyframes moveDog {
-            0% { transform: translateX(0) rotate(0deg); }
-            50% { transform: translateX(-75vw) rotate(-5deg); }
-            100% { transform: translateX(-150vw) rotate(0deg); }
-        }
+    .loader.triangle {
+      width: 48px;
+    }
 
-        @keyframes jump {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-25px); }
-        }
+    .loader.triangle:before {
+      left: 21px;
+      transform: translate(-10px, -18px);
+      animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
 
-        @keyframes wagTail {
-            0% { transform: rotate(8deg); }
-            50% { transform: rotate(-8deg); }
-            100% { transform: rotate(8deg); }
-        }
+    @keyframes pathTriangle {
+      33% { stroke-dashoffset: 74; }
+      66% { stroke-dashoffset: 147; }
+      100% { stroke-dashoffset: 221; }
+    }
 
-        @keyframes bounceDog {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px) rotate(3deg); }
-        }
+    @keyframes dotTriangle {
+      33% { transform: translate(0, 0); }
+      66% { transform: translate(10px, -18px); }
+      100% { transform: translate(-10px, -18px); }
+    }
 
-        @keyframes blink {
-            0%, 10%, 100% { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#f7cac9"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>') no-repeat; }
-            5% { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#f7cac9"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><path d="M35 40 H45 M55 40 H65" stroke="#333" stroke-width="3"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>') no-repeat; }
-        }
+    @keyframes pathRect {
+      25% { stroke-dashoffset: 64; }
+      50% { stroke-dashoffset: 128; }
+      75% { stroke-dashoffset: 192; }
+      100% { stroke-dashoffset: 256; }
+    }
 
-        @keyframes glow {
-            0% { text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); }
-            100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 4px 4px 8px rgba(0, 0, 0, 0.5); }
-        }
+    @keyframes dotRect {
+      25% { transform: translate(0, 0); }
+      50% { transform: translate(18px, -18px); }
+      75% { transform: translate(0, -36px); }
+      100% { transform: translate(-18px, -18px); }
+    }
 
-        @keyframes sparkle {
-            0% { transform: rotate(0deg) scale(1); opacity: 1; }
-            50% { transform: rotate(180deg) scale(1.5); opacity: 0.7; }
-            100% { transform: rotate(360deg) scale(1); opacity: 1; }
-        }
+    @keyframes pathCircle {
+      25% { stroke-dashoffset: 125; }
+      50% { stroke-dashoffset: 175; }
+      75% { stroke-dashoffset: 225; }
+      100% { stroke-dashoffset: 275; }
+    }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-40px); }
-            60% { transform: translateY(-20px); }
-        }
+    /* Color cycle for button */
+    @keyframes colorCycle {
+      0% { background-color: #60a5fa; } /* Blue */
+      25% { background-color: #4ade80; } /* Green */
+      50% { background-color: #ff69b4; } /* Pink */
+      75% { background-color: #ffd700; } /* Yellow */
+      100% { background-color: #60a5fa; } /* Blue */
+    }
 
-        /* Background Decorations */
-        .paw-prints {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><path d="M15 15 A6 6 0 0 1 21 15 A6 6 0 0 1 15 21 A6 6 0 0 1 9 15 A6 6 0 0 1 15 15 M25 25 A6 6 0 0 1 31 25 A6 6 0 0 1 25 31 A6 6 0 0 1 19 25 A6 6 0 0 1 25 25 M35 15 A6 6 0 0 1 41 15 A6 6 0 0 1 35 21 A6 6 0 0 1 29 15 A6 6 0 0 1 35 15 M25 10 A8 8 0 0 1 33 10 A8 8 0 0 1 25 18 A8 8 0 0 1 17 10 A8 8 0 0 1 25 10" fill="#fff" opacity="0.4"/></svg>') repeat;
-            animation: slidePaws 20s infinite linear;
-        }
+    /* Main content styles */
+    .main-content {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
 
-        .bubbles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
+    .main-content.visible {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .bubble {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: float 10s infinite ease-in-out;
-        }
+    .shop-now-btn {
+      background-color: #60a5fa; /* Pet-themed blue */
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60"><path d="M30 10 H70 A20 20 0 0 1 90 30 H110 A20 20 0 0 1 130 10 H170 A20 20 0 0 1 190 30 A20 20 0 0 1 170 50 H130 A20 20 0 0 1 110 30 H90 A20 20 0 0 1 70 50 H30 A20 20 0 0 1 10 30 A20 20 0 0 1 30 10 Z" fill="currentColor" stroke="#fff" stroke-width="4"/></svg>');
+      background-size: 100% 100%;
+      color: #fff;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 15px 60px;
+      border: 4px solid #fff;
+      border-radius: 30px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: colorCycle 0.8s infinite; /* 0.2s per color x 4 colors */
+    }
 
-        .bubble:nth-child(1) { width: 50px; height: 50px; top: 20%; left: 10%; animation-delay: 0s; }
-        .bubble:nth-child(2) { width: 30px; height: 30px; top: 50%; left: 80%; animation-delay: 2s; }
-        .bubble:nth-child(3) { width: 40px; height: 40px; top: 70%; left: 30%; animation-delay: 4s; }
+    .shop-now-btn:hover {
+      background-color: #4ade80; /* Pet-themed green */
+      transform: scale(1.1);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+      animation-play-state: paused; /* Pause color cycle on hover */
+    }
 
-        @keyframes slidePaws {
-            0% { background-position: 0 0; }
-            100% { background-position: 120px 120px; }
-        }
+    .shop-now-btn::after {
+      content: '🐾';
+      font-size: 1.2rem;
+    }
 
-        @keyframes float {
-            0% { transform: translateY(0) scale(1); opacity: 0.3; }
-            50% { transform: translateY(-100px) scale(1.2); opacity: 0.5; }
-            100% { transform: translateY(0) scale(1); opacity: 0.3; }
-        }
+    .pet {
+      position: absolute;
+      z-index: 1;
+      width: 80px;
+      height: 80px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: floatPet 3s infinite ease-in-out;
+    }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
+    .cat {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#ff69b4" stroke="#fff" stroke-width="2"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>');
+    }
 
-            .shop-now-btn {
-                font-size: 1.8rem;
-                padding: 15px 40px;
-            }
+    .dog {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#60a5fa" stroke="#fff" stroke-width="2"/><path d="M20 30 L30 10 L40 30" fill="#fff"/><path d="M60 30 L70 10 L80 30" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M70 70 L80 80" stroke="#333" stroke-width="3"/></svg>');
+    }
 
-            .cat, .dog {
-                width: 100px !important;
-                height: 100px !important;
-            }
+    .cat1 { top: 15%; left: 10%; animation-delay: 0s; }
+    .cat2 { top: 70%; right: 10%; animation-delay: 1s; }
+    .dog1 { bottom: 15%; left: 15%; animation-delay: 0.5s; }
+    .dog2 { bottom: 25%; right: 15%; animation-delay: 1.5s; }
 
-            .bubble {
-                width: 20px !important;
-                height: 20px !important;
-            }
-        }
-    </style>
+    @keyframes floatPet {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @media (max-width: 768px) {
+      .shop-now-btn {
+        font-size: 1.4rem;
+        padding: 10px 45px;
+      }
+
+      .pet {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .shop-now-btn {
+        font-size: 1.2rem;
+        padding: 8px 35px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="paw-prints"></div>
-    <div class="bubbles">
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
+  <!-- Loader -->
+  <div class="loader-container">
+    <div class="loader">
+      <svg viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="32"></circle>
+      </svg>
     </div>
-    <div class="container">
-        <h1>ZenoPets - Where Pets Sparkle!</h1>
-        <a href="https://dhakaknots.pythonanywhere.com">
-            <button class="shop-now-btn">Shop Now</button>
-        </a>
+    <div class="loader triangle">
+      <svg viewBox="0 0 86 80">
+        <polygon points="43 8 79 72 7 72"></polygon>
+      </svg>
     </div>
+    <div class="loader">
+      <svg viewBox="0 0 80 80">
+        <rect x="8" y="8" width="64" height="64"></rect>
+      </svg>
+    </div>
+  </div>
 
-    <!-- 2D Pet Animations -->
+  <!-- Main Content -->
+  <div class="main-content">
+    <a href="https://dhakaknots.pythonanywhere.com" aria-label="Shop Now for ZenoPets">
+      <button class="shop-now-btn" onclick="handleShopNowClick(event)">Shop Now</button>
+    </a>
     <div class="pet cat cat1"></div>
     <div class="pet cat cat2"></div>
     <div class="pet dog dog1"></div>
     <div class="pet dog dog2"></div>
+  </div>
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Pet hover interactivity
-        const pets = document.querySelectorAll('.pet');
-        pets.forEach(pet => {
-            pet.addEventListener('mouseover', () => {
-                pet.style.animationPlayState = 'paused';
-                pet.style.transform = 'scale(1.3) rotate(10deg)';
-            });
-            pet.addEventListener('mouseout', () => {
-                pet.style.animationPlayState = 'running';
-                pet.style.transform = 'scale(1)';
-            });
-        });
-    </script>
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <script>
+    // Loader on page load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelector('.loader-container').classList.add('hidden');
+        document.querySelector('.main-content').classList.add('visible');
+      }, 2000); // 2-second loader
+    });
+
+    // Handle Shop Now button click
+    function handleShopNowClick(event) {
+      event.preventDefault(); // Prevent immediate navigation
+      document.querySelector('.main-content').classList.remove('visible');
+      document.querySelector('.loader-container').classList.remove('hidden');
+      setTimeout(() => {
+        window.location.href = 'https://dhakaknots.pythonanywhere.com';
+      }, 2000); // 2-second loader before redirect
+    }
+
+    // Pet hover effects
+    document.querySelectorAll('.pet').forEach(pet => {
+      pet.addEventListener('mouseover', () => {
+        pet.style.animationPlayState = 'paused';
+        pet.style.transform = 'scale(1.2)';
+      });
+      pet.addEventListener('mouseout', () => {
+        pet.style.animationPlayState = 'running';
+        pet.style.transform = 'scale(1)';
+      });
+    });
+  </script>
 </body>
 </html>
