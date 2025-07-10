@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,20 +10,20 @@ body {
     background-color: #f9f9fb;
     color: #333;
     line-height: 1.6;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Container Reset */
+/* Reset Bootstrap/Tailwind Conflicts */
 .container {
-    margin-left: auto;
-    margin-right: auto;
     padding-left: 0;
     padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Navbar */
 .navbar {
-    background: #ffffff;
+    background-color: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 0.75rem 0;
     position: sticky;
@@ -45,8 +45,8 @@ body {
     font-weight: 600;
     font-size: 1.1rem;
     position: relative;
-    margin: 0 0.5rem;
     padding-bottom: 0.2rem;
+    margin: 0 0.5rem;
 }
 
 .nav-link:hover {
@@ -73,17 +73,18 @@ body {
     background-image: url('../images/paw-pattern.png');
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
-    width: 100vw;
+    min-height: 100vh; /* Full viewport height */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    padding: 0.5rem; /* Minimal padding */
+    width: 100vw; /* Ensure full width */
 }
 
 .auth-section .container {
-    max-width: 720px;
+    max-width: 720px; /* Tighter width for all screens */
     width: 100%;
+    margin: 0 auto; /* Explicit centering */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,10 +92,12 @@ body {
 
 .auth-section .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* Tighter gap */
     width: 100%;
-    align-items: center;
+    max-width: 640px; /* Constrain grid width */
+    margin: 0 auto; /* Center grid */
+    align-items: center; /* Vertical alignment */
 }
 
 .auth-section form {
@@ -103,33 +106,39 @@ body {
     border-radius: 1rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     border: 2px solid #e0e0e0;
-    width: 100%;
-    max-width: 360px;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: 320px; /* Tighter form width */
+    margin: 0 auto; /* Center form in grid cell */
 }
 
 .auth-section form.hidden {
-    display: none;
     opacity: 0;
     transform: translateY(20px);
+    display: none;
+}
+
+.auth-section form:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .auth-section h2 {
     color: #800080;
     font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     font-size: 1.75rem;
     margin-bottom: 1.25rem;
     text-align: center;
 }
 
 .auth-section input {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
     border: 1px solid #d1d5db;
+    padding: 0.75rem;
+    width: 100%;
     border-radius: 0.5rem;
     font-size: 1rem;
-    transition: 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .auth-section input:focus {
@@ -139,14 +148,14 @@ body {
 }
 
 .auth-section button {
-    width: 100%;
-    padding: 0.75rem;
     background: linear-gradient(90deg, #800080, #a855f7);
     color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
+    padding: 0.75rem;
     border-radius: 0.5rem;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
@@ -167,18 +176,16 @@ body {
 }
 
 .auth-section p a:hover {
-    color: #9333ea;
     text-decoration: underline;
+    color: #9333ea;
 }
 
 /* Password Toggle Icon */
 .toggle-password {
-    position: absolute;
     top: 50%;
-    right: 1rem;
     transform: translateY(-50%);
+    right: 1rem;
     font-size: 1rem;
-    cursor: pointer;
 }
 
 .toggle-password:hover {
@@ -193,8 +200,9 @@ footer {
 }
 
 footer h3 {
-    font-size: 1.25rem;
+    color: #ffffff;
     font-weight: 700;
+    font-size: 1.25rem;
     margin-bottom: 1rem;
 }
 
@@ -216,10 +224,9 @@ footer .grid {
 
 footer .text-center {
     margin-top: 2rem;
-    text-align: center;
 }
 
-/* Loading Overlay */
+/* Loading Animation */
 .loading {
     position: fixed;
     inset: 0;
@@ -240,39 +247,51 @@ footer .text-center {
     gap: 0.5rem;
 }
 
-/* Responsive Queries */
+/* Responsive Design */
 @media (max-width: 576px) {
+    /* Mobile Phones */
     .navbar-brand img {
         height: 32px;
     }
 
     .nav-link {
         font-size: 0.9rem;
-        margin: 0.2rem;
+        margin: 0.2rem 0;
     }
 
     .auth-section {
-        padding: 0.5rem;
+        padding: 0.25rem;
+    }
+
+    .auth-section .container {
+        max-width: 100%;
+        padding: 0;
     }
 
     .auth-section .grid {
         grid-template-columns: 1fr;
-        gap: 0.75rem;
+        max-width: 320px; /* Match form width */
+        gap: 0.5rem;
     }
 
     .auth-section form {
+        max-width: 320px;
         padding: 1rem;
-        max-width: 100%;
     }
 
     .auth-section h2 {
-        font-size: 1.4rem;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
     }
 
     .auth-section input,
     .auth-section button {
-        font-size: 0.95rem;
-        padding: 0.6rem;
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    footer {
+        padding: 1.5rem 0.5rem;
     }
 
     footer h3 {
@@ -281,15 +300,81 @@ footer .text-center {
 }
 
 @media (min-width: 577px) and (max-width: 768px) {
+    /* Tablets */
     .navbar-brand img {
         height: 36px;
     }
 
     .nav-link {
         font-size: 1rem;
+        margin: 0.25rem 0;
+    }
+
+    .auth-section .container {
+        max-width: 640px;
     }
 
     .auth-section .grid {
         grid-template-columns: 1fr;
+        max-width: 320px; /* Single form for tablets */
+        gap: 0.5rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1.25rem;
+    }
+
+    .auth-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .auth-section input,
+    .auth-section button {
+        font-size: 0.95rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Laptops */
+    .auth-section .container {
+        max-width: 720px;
+    }
+
+    .auth-section .grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 640px;
+        gap: 1rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1.5rem;
+    }
+
+    .auth-section form.hidden {
+        display: block; /* Show both forms */
+    }
+}
+
+@media (min-width: 1025px) {
+    /* PCs */
+    .auth-section .container {
+        max-width: 720px;
+    }
+
+    .auth-section .grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 640px;
+        gap: 1rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1.5rem;
+    }
+
+    .auth-section form.hidden {
+        display: block; /* Show both forms */
     }
 }
