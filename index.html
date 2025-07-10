@@ -3,100 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paw-some Pet Shop</title>
+    <title>ZenoPets - Magical Pet Shop</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            font-family: 'Bubblegum Sans', 'Comic Sans MS', 'Arial', sans-serif;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
+
         body {
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            overflow-x: hidden;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
             min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
 
         .container {
             text-align: center;
-            position: relative;
-            z-index: 1;
+            z-index: 3;
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: 5rem;
             color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+            animation: glow 2s ease-in-out infinite alternate, bounce 3s infinite;
         }
 
+        /* Shop Now Button */
         .shop-now-btn {
-            background: #ff6f61;
+            background: linear-gradient(45deg, #ff1e56, #ffac41);
             color: #fff;
-            padding: 15px 40px;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            padding: 20px 60px;
             border: none;
             border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1;
+        }
+
+        .shop-now-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: 0.6s;
+            z-index: -1;
+        }
+
+        .shop-now-btn:hover::before {
+            left: 150%;
         }
 
         .shop-now-btn:hover {
-            background: #ff4d4d;
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* Pet Animations */
+        .shop-now-btn::after {
+            content: '✨';
+            position: absolute;
+            font-size: 1.5rem;
+            top: -10px;
+            right: -10px;
+            animation: sparkle 1.5s infinite;
+        }
+
+        /* 2D Pet Animations */
         .pet {
             position: absolute;
-            animation: movePet 10s infinite linear;
+            z-index: 2;
         }
 
-        .cat1 {
-            width: 150px;
-            top: 10%;
-            left: -200px;
-            animation: movePet 12s infinite linear;
+        .cat {
+            width: 140px;
+            height: 140px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#f7cac9"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>') no-repeat;
+            background-size: contain;
+            animation: moveCat 12s infinite linear, jump 1.2s infinite, blink 3s infinite;
         }
 
-        .dog1 {
-            width: 180px;
-            bottom: 10%;
-            right: -200px;
-            animation: movePet 15s infinite linear reverse;
-        }
-
-        .cat2 {
-            width: 120px;
-            top: 50%;
-            left: -200px;
-            animation: movePet 8s infinite linear;
-        }
-
-        .dog2 {
+        .dog {
             width: 160px;
-            bottom: 20%;
-            left: -200px;
-            animation: movePet 10s infinite linear;
+            height: 160px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#8b5523"/><path d="M20 30 L30 10 L40 30" fill="#fff"/><path d="M60 30 L70 10 L80 30" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M70 70 L80 80" stroke="#333" stroke-width="3" transform="rotate(45 75 75)"/></svg>') no-repeat;
+            background-size: contain;
+            animation: moveDog 14s infinite linear, wagTail 0.6s infinite, bounceDog 1.5s infinite;
         }
 
-        /* Animation Keyframes */
-        @keyframes movePet {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(150vw); }
+        .cat1 { top: 15%; left: -200px; animation-delay: 0s; }
+        .cat2 { top: 65%; left: -200px; animation-delay: 3s; }
+        .dog1 { bottom: 15%; right: -200px; animation-delay: 1s; }
+        .dog2 { bottom: 35%; right: -200px; animation-delay: 4s; }
+
+        /* Advanced Animation Keyframes */
+        @keyframes moveCat {
+            0% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(75vw) rotate(5deg); }
+            100% { transform: translateX(150vw) rotate(0deg); }
+        }
+
+        @keyframes moveDog {
+            0% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(-75vw) rotate(-5deg); }
+            100% { transform: translateX(-150vw) rotate(0deg); }
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        @keyframes wagTail {
+            0% { transform: rotate(8deg); }
+            50% { transform: rotate(-8deg); }
+            100% { transform: rotate(8deg); }
+        }
+
+        @keyframes bounceDog {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        @keyframes blink {
+            0%, 10%, 100% { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#f7cac9"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>') no-repeat; }
+            5% { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#f7cac9"/><path d="M30 20 L40 10 L50 20" fill="#fff"/><path d="M60 20 L70 10 L80 20" fill="#fff"/><path d="M35 40 H45 M55 40 H65" stroke="#333" stroke-width="3"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M20 50 L10 60 M80 50 L90 60" stroke="#333" stroke-width="2"/></svg>') no-repeat; }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 4px 4px 8px rgba(0, 0, 0, 0.5); }
+        }
+
+        @keyframes sparkle {
+            0% { transform: rotate(0deg) scale(1); opacity: 1; }
+            50% { transform: rotate(180deg) scale(1.5); opacity: 0.7; }
+            100% { transform: rotate(360deg) scale(1); opacity: 1; }
         }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
-            60% { transform: translateY(-15px); }
+            40% { transform: translateY(-40px); }
+            60% { transform: translateY(-20px); }
         }
 
         /* Background Decorations */
@@ -106,58 +171,96 @@
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 0;
-            background: url('https://i.imgur.com/5zK6Z5Z.png') repeat;
-            opacity: 0.2;
+            z-index: 1;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><path d="M15 15 A6 6 0 0 1 21 15 A6 6 0 0 1 15 21 A6 6 0 0 1 9 15 A6 6 0 0 1 15 15 M25 25 A6 6 0 0 1 31 25 A6 6 0 0 1 25 31 A6 6 0 0 1 19 25 A6 6 0 0 1 25 25 M35 15 A6 6 0 0 1 41 15 A6 6 0 0 1 35 21 A6 6 0 0 1 29 15 A6 6 0 0 1 35 15 M25 10 A8 8 0 0 1 33 10 A8 8 0 0 1 25 18 A8 8 0 0 1 17 10 A8 8 0 0 1 25 10" fill="#fff" opacity="0.4"/></svg>') repeat;
             animation: slidePaws 20s infinite linear;
         }
 
+        .bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) { width: 50px; height: 50px; top: 20%; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 30px; height: 30px; top: 50%; left: 80%; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 40px; height: 40px; top: 70%; left: 30%; animation-delay: 4s; }
+
         @keyframes slidePaws {
             0% { background-position: 0 0; }
-            100% { background-position: 200px 200px; }
+            100% { background-position: 120px 120px; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-100px) scale(1.2); opacity: 0.5; }
+            100% { transform: translateY(0) scale(1); opacity: 0.3; }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
 
             .shop-now-btn {
-                font-size: 1.5rem;
-                padding: 10px 30px;
+                font-size: 1.8rem;
+                padding: 15px 40px;
             }
 
-            .pet {
-                width: 80px !important;
+            .cat, .dog {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            .bubble {
+                width: 20px !important;
+                height: 20px !important;
             }
         }
     </style>
 </head>
 <body>
     <div class="paw-prints"></div>
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
     <div class="container">
-        <h1>Welcome to Paw-some Pet Shop!</h1>
+        <h1>ZenoPets - Where Pets Sparkle!</h1>
         <a href="https://dhakaknots.pythonanywhere.com">
             <button class="shop-now-btn">Shop Now</button>
         </a>
     </div>
 
-    <!-- Pet Animations -->
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGQ0ZDI3ZDU4MGU5YzM5Y2I4YzM4ZDU2ZWI2N2Q0ZDU4MGU5YzM5Y2I4YzM4ZDU2ZWI2N2Q0/giphy.gif" class="pet cat1" alt="Cute Cat">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzM4ZDU2ZWI2N2Q0ZDU4MGU5YzM5Y2I4YzM4ZDU2ZWI2N2Q0ZDU4M/giphy.gif" class="pet dog1" alt="Happy Dog">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzM4ZDU2ZWI2N2Q0ZDU4MGU5YzM5Y2I4YzM4ZDU2ZWI2N2Q0ZDU4M/giphy.gif" class="pet cat2" alt="Playful Cat">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzM4ZDU2ZWI2N2Q0ZDU4MGU5YzM5Y2I4YzM4ZDU2ZWI2N2Q0ZDU4M/giphy.gif" class="pet dog2" alt="Cute Dog">
+    <!-- 2D Pet Animations -->
+    <div class="pet cat cat1"></div>
+    <div class="pet cat cat2"></div>
+    <div class="pet dog dog1"></div>
+    <div class="pet dog dog2"></div>
 
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Add subtle rotation to pets on hover
+        // Pet hover interactivity
         const pets = document.querySelectorAll('.pet');
         pets.forEach(pet => {
             pet.addEventListener('mouseover', () => {
-                pet.style.transform = 'rotate(10deg)';
+                pet.style.animationPlayState = 'paused';
+                pet.style.transform = 'scale(1.3) rotate(10deg)';
             });
             pet.addEventListener('mouseout', () => {
-                pet.style.transform = 'rotate(0deg)';
+                pet.style.animationPlayState = 'running';
+                pet.style.transform = 'scale(1)';
             });
         });
     </script>
