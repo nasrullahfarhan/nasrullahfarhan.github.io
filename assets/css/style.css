@@ -1,0 +1,380 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Neue', cursive;
+    background-color: #f9f9fb;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Reset Bootstrap/Tailwind Conflicts */
+.container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand img {
+    height: 48px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.1);
+}
+
+.nav-link {
+    color: #4b0082;
+    font-weight: 600;
+    font-size: 1.1rem;
+    position: relative;
+    padding-bottom: 0.2rem;
+    margin: 0 0.5rem;
+}
+
+.nav-link:hover {
+    color: #800080;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #800080;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Auth Section */
+.auth-section {
+    background-image: url('../images/paw-pattern.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    padding: 0.5rem; /* Minimal padding */
+    width: 100vw; /* Ensure full width */
+}
+
+.auth-section .container {
+    max-width: 720px; /* Tighter width for all screens */
+    width: 100%;
+    margin: 0 auto; /* Explicit centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-section .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* Tighter gap */
+    width: 100%;
+    max-width: 640px; /* Constrain grid width */
+    margin: 0 auto; /* Center grid */
+    align-items: center; /* Vertical alignment */
+}
+
+.auth-section form {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border: 2px solid #e0e0e0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: 320px; /* Tighter form width */
+    margin: 0 auto; /* Center form in grid cell */
+}
+
+.auth-section form.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    display: none;
+}
+
+.auth-section form:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.auth-section h2 {
+    color: #800080;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.auth-section input {
+    border: 1px solid #d1d5db;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-section input:focus {
+    outline: none;
+    border-color: #800080;
+    box-shadow: 0 0 0 4px rgba(128, 0, 128, 0.2);
+}
+
+.auth-section button {
+    background: linear-gradient(90deg, #800080, #a855f7);
+    color: #ffffff;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.auth-section button:hover {
+    background: linear-gradient(90deg, #6b7280, #9333ea);
+    transform: translateY(-2px);
+}
+
+.auth-section p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-section p a {
+    color: #800080;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-section p a:hover {
+    text-decoration: underline;
+    color: #9333ea;
+}
+
+/* Password Toggle Icon */
+.toggle-password {
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1rem;
+    font-size: 1rem;
+}
+
+.toggle-password:hover {
+    color: #800080;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(180deg, #1f2937, #374151);
+    color: #ffffff;
+    padding: 2rem 1rem;
+}
+
+footer h3 {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+footer a {
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #a855f7;
+}
+
+footer .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+footer .text-center {
+    margin-top: 2rem;
+}
+
+/* Loading Animation */
+.loading {
+    position: fixed;
+    inset: 0;
+    background: rgba(31, 41, 55, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loading div {
+    background: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    /* Mobile Phones */
+    .navbar-brand img {
+        height: 32px;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        margin: 0.2rem 0;
+    }
+
+    .auth-section {
+        padding: 0.25rem;
+    }
+
+    .auth-section .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .auth-section .grid {
+        grid-template-columns: 1fr;
+        max-width: 320px; /* Match form width */
+        gap: 0.5rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1rem;
+    }
+
+    .auth-section h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .auth-section input,
+    .auth-section button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    footer {
+        padding: 1.5rem 0.5rem;
+    }
+
+    footer h3 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    /* Tablets */
+    .navbar-brand img {
+        height: 36px;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        margin: 0.25rem 0;
+    }
+
+    .auth-section .container {
+        max-width: 640px;
+    }
+
+    .auth-section .grid {
+        grid-template-columns: 1fr;
+        max-width: 320px; /* Single form for tablets */
+        gap: 0.5rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1.25rem;
+    }
+
+    .auth-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .auth-section input,
+    .auth-section button {
+        font-size: 0.95rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Laptops */
+    .auth-section .container {
+        max-width: 720px;
+    }
+
+    .auth-section .grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 640px;
+        gap: 1rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1.5rem;
+    }
+
+    .auth-section form.hidden {
+        display: block; /* Show both forms */
+    }
+}
+
+@media (min-width: 1025px) {
+    /* PCs */
+    .auth-section .container {
+        max-width: 720px;
+    }
+
+    .auth-section .grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 640px;
+        gap: 1rem;
+    }
+
+    .auth-section form {
+        max-width: 320px;
+        padding: 1.5rem;
+    }
+
+    .auth-section form.hidden {
+        display: block; /* Show both forms */
+    }
+}
