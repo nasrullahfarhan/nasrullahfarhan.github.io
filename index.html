@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ZenoPets - Your Magical Pet Shop</title>
 
   <!-- Favicon -->
@@ -34,7 +34,7 @@
       font-family: sans-serif;
     }
 
-    /* Background Image without tint */
+    /* Background Image */
     body::before {
       content: '';
       position: fixed;
@@ -50,15 +50,15 @@
     /* ZenoPets Logo */
     .logo {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 200px;
+      top: 15px;
+      left: 15px;
+      width: 150px;
       z-index: 3;
       transition: transform 0.3s ease;
     }
 
     .logo:hover {
-      transform: scale(1.2);
+      transform: scale(1.1);
     }
 
     /* Loader styles */
@@ -85,24 +85,24 @@
       --path: #fff;
       --dot: #ff69b4;
       --duration: 2s;
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       position: relative;
       display: inline-block;
-      margin: 0 16px;
+      margin: 0 12px;
     }
 
     .loader:before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       position: absolute;
       display: block;
       background: var(--dot);
-      top: 37px;
-      left: 19px;
-      transform: translate(-18px, -18px);
+      top: 30px;
+      left: 16px;
+      transform: translate(-15px, -15px);
       animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
     }
 
@@ -117,70 +117,70 @@
     .loader svg circle {
       fill: none;
       stroke: var(--path);
-      stroke-width: 10px;
+      stroke-width: 8px;
       stroke-linejoin: round;
       stroke-linecap: round;
     }
 
     .loader svg polygon {
-      stroke-dasharray: 145 76 145 76;
+      stroke-dasharray: 120 60 120 60;
       stroke-dashoffset: 0;
       animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
     }
 
     .loader svg rect {
-      stroke-dasharray: 192 64 192 64;
+      stroke-dasharray: 160 50 160 50;
       stroke-dashoffset: 0;
       animation: pathRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
     }
 
     .loader svg circle {
-      stroke-dasharray: 150 50 150 50;
-      stroke-dashoffset: 75;
+      stroke-dasharray: 120 40 120 40;
+      stroke-dashoffset: 60;
       animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
     }
 
     .loader.triangle {
-      width: 48px;
+      width: 40px;
     }
 
     .loader.triangle:before {
-      left: 21px;
-      transform: translate(-10px, -18px);
+      left: 18px;
+      transform: translate(-8px, -15px);
       animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
     }
 
     @keyframes pathTriangle {
-      33% { stroke-dashoffset: 74; }
-      66% { stroke-dashoffset: 147; }
-      100% { stroke-dashoffset: 221; }
+      33% { stroke-dashoffset: 60; }
+      66% { stroke-dashoffset: 120; }
+      100% { stroke-dashoffset: 180; }
     }
 
     @keyframes dotTriangle {
       33% { transform: translate(0, 0); }
-      66% { transform: translate(10px, -18px); }
-      100% { transform: translate(-10px, -18px); }
+      66% { transform: translate(8px, -15px); }
+      100% { transform: translate(-8px, -15px); }
     }
 
     @keyframes pathRect {
-      25% { stroke-dashoffset: 64; }
-      50% { stroke-dashoffset: 128; }
-      75% { stroke-dashoffset: 192; }
-      100% { stroke-dashoffset: 256; }
+      25% { stroke-dashoffset: 50; }
+      50% { stroke-dashoffset: 100; }
+      75% { stroke-dashoffset: 150; }
+      100% { stroke-dashoffset: 200; }
     }
 
     @keyframes dotRect {
       25% { transform: translate(0, 0); }
-      50% { transform: translate(18px, -18px); }
-      75% { transform: translate(0, -36px); }
-      100% { transform: translate(-18px, -18px); }
+      50% { transform: translate(15px, -15px); }
+      75% { transform: translate(0, -30px); }
+      100% { transform: translate(-15px, -15px); }
     }
 
     @keyframes pathCircle {
-      25% { stroke-dashoffset: 125; }
-      50% { stroke-dashoffset: 175; }
-      75% { stroke-dashoffset: 225; }
-      100% { stroke-dashoffset: 275; }
+      25% { stroke-dashoffset: 100; }
+      50% { stroke-dashoffset: 140; }
+      75% { stroke-dashoffset: 180; }
+      100% { stroke-dashoffset: 220; }
     }
 
     /* Main content styles */
@@ -203,16 +203,18 @@
       position: relative;
       z-index: 2;
       cursor: pointer;
+      touch-action: none; /* Prevent default touch behaviors */
     }
 
     .pet {
       position: absolute;
       z-index: 1;
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       background-size: contain;
       background-repeat: no-repeat;
       animation: floatPet 3s infinite ease-in-out;
+      pointer-events: auto;
     }
 
     .cat {
@@ -223,36 +225,36 @@
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#60a5fa" stroke="#fff" stroke-width="2"/><path d="M20 30 L30 10 L40 30" fill="#fff"/><path d="M60 30 L70 10 L80 30" fill="#fff"/><circle cx="40" cy="40" r="5" fill="#333"/><circle cx="60" cy="40" r="5" fill="#333"/><path d="M50 60 Q45 65 50 70 Q55 65 50 60" fill="#333"/><path d="M70 70 L80 80" stroke="#333" stroke-width="3"/></svg>');
     }
 
-    .cat1 { top: 15%; left: 10%; animation-delay: 0s; }
-    .cat2 { top: 70%; right: 10%; animation-delay: 1s; }
-    .dog1 { bottom: 15%; left: 15%; animation-delay: 0.5s; }
-    .dog2 { bottom: 25%; right: 15%; animation-delay: 1.5s; }
+    .cat1 { top: 10%; left: 5%; animation-delay: 0s; }
+    .cat2 { top: 65%; right: 5%; animation-delay: 1s; }
+    .dog1 { bottom: 10%; left: 10%; animation-delay: 0.5s; }
+    .dog2 { bottom: 20%; right: 10%; animation-delay: 1.5s; }
 
     @keyframes floatPet {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+      50% { transform: translateY(-10px); }
     }
 
     /* Arrow styles */
     .click-arrows {
       position: absolute;
-      top: -40px; /* Moved up to avoid overlap with indicator */
+      top: -30px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 10px;
-      z-index: 4; /* Higher than indicator to ensure visibility */
+      gap: 8px;
+      z-index: 4;
     }
 
     .arrow {
-      width: 20px;
-      height: 20px;
-      border: 3px solid #333; /* Changed to darker color for contrast */
+      width: 15px;
+      height: 15px;
+      border: 2px solid #333;
       border-left: 0;
       border-bottom: 0;
       transform: rotate(-45deg);
       animation: bounceArrow 1s infinite;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Added shadow for visibility */
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
     .arrow:nth-child(2) {
@@ -265,17 +267,17 @@
 
     @keyframes bounceArrow {
       0%, 100% { transform: translateY(0) rotate(-45deg); }
-      50% { transform: translateY(-10px) rotate(-45deg); }
+      50% { transform: translateY(-8px) rotate(-45deg); }
     }
 
     /* Indicator styles */
     .indicator {
       position: absolute;
-      width: 50px;
-      height: 50px;
-      top: -80px; /* Just above click-arrows */
+      width: 40px;
+      height: 40px;
+      top: -60px;
       left: 50%;
-      transform: translateX(-50%) rotate(45deg); /* Center and rotate */
+      transform: translateX(-50%) rotate(45deg);
       z-index: 3;
     }
 
@@ -287,20 +289,20 @@
       height: 100%;
       box-sizing: border-box;
       border: none;
-      border-bottom: 3px solid #fff;
-      border-right: 3px solid #fff;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
       animation: animate 1s linear infinite;
     }
 
     .indicator span:nth-child(1) {
-      top: -30px;
-      left: -30px;
+      top: -24px;
+      left: -24px;
       animation-delay: 0s;
     }
 
     .indicator span:nth-child(2) {
-      top: -15px;
-      left: -15px;
+      top: -12px;
+      left: -12px;
       animation-delay: 0.2s;
     }
 
@@ -311,14 +313,14 @@
     }
 
     .indicator span:nth-child(4) {
-      top: 15px;
-      left: 15px;
+      top: 12px;
+      left: 12px;
       animation-delay: 0.6s;
     }
 
     .indicator span:nth-child(5) {
-      top: 30px;
-      left: 30px;
+      top: 24px;
+      left: 24px;
       animation-delay: 0.8s;
     }
 
@@ -329,156 +331,136 @@
       }
       20% {
         border-color: #fff;
-        transform: translate(15px, 15px);
+        transform: translate(10px, 10px);
       }
       20.1%, 100% {
         border-color: #ffd64a;
       }
     }
 
-    /* Provided styles for future SVG or iframe */
-    .path {
-      stroke-dasharray: 1000;
-      stroke-dashoffset: 1000;
-      animation: dash 3s linear forwards;
-      animation-iteration-count: 1;
-      animation-delay: 1s;
-    }
-
-    @keyframes dash {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-
-    .dashed {
-      stroke-dasharray: 5, 12;
-    }
-
-    #arrow {
-      animation: arrow 2s linear forwards;
-      opacity: 0;
-    }
-
-    @keyframes arrow {
-      to {
-        opacity: 1;
-      }
-    }
-
-    .ifrm {
-      border: none;
-      width: 100%;
-      margin-top: 50px;
-    }
-
-    @media (max-width: 768px) {
-      canvas {
-        transform: scale(0.8);
+    /* Media Queries for Responsive Design */
+    @media (max-width: 1024px) { /* Tablets */
+      .logo {
+        width: 120px;
+        top: 10px;
+        left: 10px;
       }
 
       .pet {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
       }
 
-      .logo {
-        width: 80px;
-      }
-
-      .click-arrows {
-        top: -35px; /* Adjusted for smaller canvas */
-      }
-
-      .arrow {
-        width: 15px;
-        height: 15px;
-        border-width: 2px;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .indicator {
-        width: 40px;
-        height: 40px;
-        top: -65px; /* Adjusted for smaller canvas */
-      }
-
-      .indicator span:nth-child(1) {
-        top: -24px;
-        left: -24px;
-      }
-
-      .indicator span:nth-child(2) {
-        top: -12px;
-        left: -12px;
-      }
-
-      .indicator span:nth-child(3) {
-        top: 0;
-        left: 0;
-      }
-
-      .indicator span:nth-child(4) {
-        top: 12px;
-        left: 12px;
-      }
-
-      .indicator span:nth-child(5) {
-        top: 24px;
-        left: 24px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      canvas {
-        transform: scale(0.6);
-      }
-
-      .logo {
-        width: 60px;
-      }
+      .cat1 { top: 12%; left: 8%; }
+      .cat2 { top: 68%; right: 8%; }
+      .dog1 { bottom: 12%; left: 12%; }
+      .dog2 { bottom: 22%; right: 12%; }
 
       .click-arrows {
-        top: -30px; /* Adjusted for smaller canvas */
+        top: -25px;
+        gap: 6px;
       }
 
       .arrow {
         width: 12px;
         height: 12px;
-        border-width: 2px;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        border-width: 1.5px;
+      }
+
+      .indicator {
+        width: 35px;
+        height: 35px;
+        top: -50px;
+      }
+
+      .indicator span:nth-child(1) { top: -21px; left: -21px; }
+      .indicator span:nth-child(2) { top: -10.5px; left: -10.5px; }
+      .indicator span:nth-child(3) { top: 0; left: 0; }
+      .indicator span:nth-child(4) { top: 10.5px; left: 10.5px; }
+      .indicator span:nth-child(5) { top: 21px; left: 21px; }
+    }
+
+    @media (max-width: 576px) { /* Mobile Phones (Android) */
+      .logo {
+        width: 80px;
+        top: 8px;
+        left: 8px;
+      }
+
+      .pet {
+        width: 40px;
+        height: 40px;
+      }
+
+      .cat1 { top: 15%; left: 5%; }
+      .cat2 { top: 70%; right: 5%; }
+      .dog1 { bottom: 15%; left: 10%; }
+      .dog2 { bottom: 25%; right: 10%; }
+
+      .click-arrows {
+        top: -20px;
+        gap: 5px;
+      }
+
+      .arrow {
+        width: 10px;
+        height: 10px;
+        border-width: 1px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
       }
 
       .indicator {
         width: 30px;
         height: 30px;
-        top: -50px; /* Adjusted for smaller canvas */
+        top: -40px;
       }
 
-      .indicator span:nth-child(1) {
-        top: -18px;
-        left: -18px;
+      .indicator span:nth-child(1) { top: -18px; left: -18px; }
+      .indicator span:nth-child(2) { top: -9px; left: -9px; }
+      .indicator span:nth-child(3) { top: 0; left: 0; }
+      .indicator span:nth-child(4) { top: 9px; left: 9px; }
+      .indicator span:nth-child(5) { top: 18px; left: 18px; }
+    }
+
+    @media (max-width: 360px) { /* Small Android Phones */
+      .logo {
+        width: 60px;
+        top: 5px;
+        left: 5px;
       }
 
-      .indicator span:nth-child(2) {
-        top: -9px;
-        left: -9px;
+      .pet {
+        width: 35px;
+        height: 35px;
       }
 
-      .indicator span:nth-child(3) {
-        top: 0;
-        left: 0;
+      .cat1 { top: 18%; left: 3%; }
+      .cat2 { top: 72%; right: 3%; }
+      .dog1 { bottom: 18%; left: 8%; }
+      .dog2 { bottom: 28%; right: 8%; }
+
+      .click-arrows {
+        top: -15px;
+        gap: 4px;
       }
 
-      .indicator span:nth-child(4) {
-        top: 9px;
-        left: 9px;
+      .arrow {
+        width: 8px;
+        height: 8px;
+        border-width: 1px;
       }
 
-      .indicator span:nth-child(5) {
-        top: 18px;
-        left: 18px;
+      .indicator {
+        width: 25px;
+        height: 25px;
+        top: -35px;
       }
+
+      .indicator span:nth-child(1) { top: -15px; left: -15px; }
+      .indicator span:nth-child(2) { top: -7.5px; left: -7.5px; }
+      .indicator span:nth-child(3) { top: 0; left: 0; }
+      .indicator span:nth-child(4) { top: 7.5px; left: 7.5px; }
+      .indicator span:nth-child(5) { top: 15px; left: 15px; }
     }
   </style>
 </head>
@@ -535,24 +517,24 @@
     class LiquidButton {
       constructor() {
         this.tension = 0.4;
-        this.width = 260;
-        this.height = 75;
-        this.margin = 50;
-        this.padding = 17;
+        this.margin = 40;
+        this.padding = 15;
         this.hoverFactor = -0.1;
         this.gap = 5;
         this.forceFactor = 0.2;
 
-        // Two pet-themed colors for button only
+        // Responsive width and height based on viewport
+        this.updateDimensions();
+
         this.colors = [
-          { color1: '#FFC107', color2: '#4ade80', color3: '#22c55e' }, // Yellow, Green, Darker Green
-          { color1: '#4ade80', color2: '#FFC107', color3: '#FF1744' } // Green, Yellow, Red-Pink
+          { color1: '#FFC107', color2: '#4ade80', color3: '#22c55e' },
+          { color1: '#4ade80', color2: '#FFC107', color3: '#FF1744' }
         ];
         this.colorIndex = 0;
         this.color1 = this.colors[0].color1;
         this.color2 = this.colors[0].color2;
         this.color3 = this.colors[0].color3;
-        this.textColor = '#000000'; // Black
+        this.textColor = '#000000';
 
         this.text = 'SHOP NOW';
         this.canvas = document.querySelector('canvas');
@@ -561,17 +543,35 @@
         this.noise = 0;
 
         this.layers = [
-          { points: [], viscosity: 0.5, mouseForce: 100, forceLimit: 2 },
-          { points: [], viscosity: 0.8, mouseForce: 150, forceLimit: 3 }
+          { points: [], viscosity: 0.5, mouseForce: 80, forceLimit: 2 },
+          { points: [], viscosity: 0.8, mouseForce: 120, forceLimit: 3 }
         ];
 
+        // Event listeners for mouse and touch
         this.canvas.addEventListener('mousemove', this.mousemove);
         this.canvas.addEventListener('mouseout', this.mouseout);
         this.canvas.addEventListener('click', this.handleClick.bind(this));
+        this.canvas.addEventListener('touchstart', this.touchstart.bind(this));
+        this.canvas.addEventListener('touchmove', this.touchmove.bind(this));
+        this.canvas.addEventListener('touchend', this.touchend.bind(this));
+
+        // Handle window resize
+        window.addEventListener('resize', this.handleResize.bind(this));
 
         this.initOrigins();
         this.animate();
         this.updateBackground();
+      }
+
+      updateDimensions() {
+        const vw = window.innerWidth;
+        this.width = Math.min(220, Math.max(160, vw * 0.6)); // Dynamic width
+        this.height = this.width * 0.3; // Maintain aspect ratio
+      }
+
+      handleResize() {
+        this.updateDimensions();
+        this.initOrigins();
       }
 
       get mousemove() {
@@ -583,6 +583,24 @@
 
       get mouseout() {
         return () => this.touches = [];
+      }
+
+      touchstart(e) {
+        e.preventDefault();
+        const rect = this.canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        this.touches = [{ x: touch.clientX - rect.left, y: touch.clientY - rect.top, z: 0, force: 1 }];
+      }
+
+      touchmove(e) {
+        e.preventDefault();
+        const rect = this.canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        this.touches = [{ x: touch.clientX - rect.left, y: touch.clientY - rect.top, z: 0, force: 1 }];
+      }
+
+      touchend() {
+        this.touches = [];
       }
 
       get raf() {
@@ -604,7 +622,7 @@
         document.querySelector('.loader-container').classList.remove('hidden');
         setTimeout(() => {
           window.location.href = 'https://dhakaknots.pythonanywhere.com';
-        }, 2000); // 2-second loader before redirect
+        }, 1500); // Reduced to 1.5s for faster mobile experience
       }
 
       updateBackground() {
@@ -622,7 +640,7 @@
             const dx = point.ox - point.x + (Math.random() - 0.5) * this.noise;
             const dy = point.oy - point.y + (Math.random() - 0.5) * this.noise;
             const d = Math.sqrt(dx * dx + dy * dy);
-            const f = d * this.forceFactor;
+            const минута = d * this.forceFactor;
             point.vx += f * (dx / d || 0);
             point.vy += f * (dy / d || 0);
 
@@ -696,7 +714,7 @@
         }
 
         this.context.fillStyle = this.textColor;
-        this.context.font = `bold ${this.height - this.padding * 2}px sans-serif`;
+        this.context.font = `bold ${Math.max(16, this.height - this.padding * 2)}px sans-serif`;
         this.context.textAlign = 'center';
         this.context.textBaseline = 'middle';
         this.context.fillText(this.text, this.canvas.width / 2, this.canvas.height / 2);
@@ -750,16 +768,24 @@
       setTimeout(() => {
         document.querySelector('.loader-container').classList.add('hidden');
         document.querySelector('.main-content').classList.add('visible');
-      }, 2000); // 2-second loader
+      }, 1500); // Reduced to 1.5s for faster mobile experience
     });
 
-    // Pet hover effects
+    // Pet hover and touch effects
     document.querySelectorAll('.pet').forEach(pet => {
       pet.addEventListener('mouseover', () => {
         pet.style.animationPlayState = 'paused';
         pet.style.transform = 'scale(1.2)';
       });
       pet.addEventListener('mouseout', () => {
+        pet.style.animationPlayState = 'running';
+        pet.style.transform = 'scale(1)';
+      });
+      pet.addEventListener('touchstart', () => {
+        pet.style.animationPlayState = 'paused';
+        pet.style.transform = 'scale(1.2)';
+      });
+      pet.addEventListener('touchend', () => {
         pet.style.animationPlayState = 'running';
         pet.style.transform = 'scale(1)';
       });
