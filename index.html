@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZenoPets - Your Magical Pet Shop</title>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
@@ -20,8 +23,6 @@
     }
 
     body {
-      background: url('https://cdn.dribbble.com/userupload/22757066/file/original-b2b362d7e2ec0ff30e1c229ef69d126d.gif') no-repeat center center fixed;
-      background-size: cover;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -30,9 +31,10 @@
       color: #fff;
       overflow-x: hidden;
       position: relative;
+      font-family: sans-serif;
     }
 
-    /* Semi-transparent overlay for readability */
+    /* Background Image without tint */
     body::before {
       content: '';
       position: fixed;
@@ -40,8 +42,23 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.4);
+      background: url('assets/pet-background.jpg') no-repeat center center fixed;
+      background-size: cover;
       z-index: 0;
+    }
+
+    /* ZenoPets Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 200px;
+      z-index: 3;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.2);
     }
 
     /* Loader styles */
@@ -166,15 +183,6 @@
       100% { stroke-dashoffset: 275; }
     }
 
-    /* Color cycle for button */
-    @keyframes colorCycle {
-      0% { background-color: #60a5fa; } /* Blue */
-      25% { background-color: #4ade80; } /* Green */
-      50% { background-color: #ff69b4; } /* Pink */
-      75% { background-color: #ffd700; } /* Yellow */
-      100% { background-color: #60a5fa; } /* Blue */
-    }
-
     /* Main content styles */
     .main-content {
       display: none;
@@ -191,36 +199,10 @@
       justify-content: center;
     }
 
-    .shop-now-btn {
-      background-color: #60a5fa; /* Pet-themed blue */
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60"><path d="M30 10 H70 A20 20 0 0 1 90 30 H110 A20 20 0 0 1 130 10 H170 A20 20 0 0 1 190 30 A20 20 0 0 1 170 50 H130 A20 20 0 0 1 110 30 H90 A20 20 0 0 1 70 50 H30 A20 20 0 0 1 10 30 A20 20 0 0 1 30 10 Z" fill="currentColor" stroke="#fff" stroke-width="4"/></svg>');
-      background-size: 100% 100%;
-      color: #fff;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 15px 60px;
-      border: 4px solid #fff;
-      border-radius: 30px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    canvas {
+      position: relative;
+      z-index: 2;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      animation: colorCycle 0.8s infinite; /* 0.2s per color x 4 colors */
-    }
-
-    .shop-now-btn:hover {
-      background-color: #4ade80; /* Pet-themed green */
-      transform: scale(1.1);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
-      animation-play-state: paused; /* Pause color cycle on hover */
-    }
-
-    .shop-now-btn::after {
-      content: '🐾';
-      font-size: 1.2rem;
     }
 
     .pet {
@@ -251,22 +233,251 @@
       50% { transform: translateY(-15px); }
     }
 
+    /* Arrow styles */
+    .click-arrows {
+      position: absolute;
+      top: -40px; /* Moved up to avoid overlap with indicator */
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 4; /* Higher than indicator to ensure visibility */
+    }
+
+    .arrow {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #333; /* Changed to darker color for contrast */
+      border-left: 0;
+      border-bottom: 0;
+      transform: rotate(-45deg);
+      animation: bounceArrow 1s infinite;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Added shadow for visibility */
+    }
+
+    .arrow:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .arrow:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes bounceArrow {
+      0%, 100% { transform: translateY(0) rotate(-45deg); }
+      50% { transform: translateY(-10px) rotate(-45deg); }
+    }
+
+    /* Indicator styles */
+    .indicator {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: -80px; /* Just above click-arrows */
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg); /* Center and rotate */
+      z-index: 3;
+    }
+
+    .indicator span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 3px solid #fff;
+      border-right: 3px solid #fff;
+      animation: animate 1s linear infinite;
+    }
+
+    .indicator span:nth-child(1) {
+      top: -30px;
+      left: -30px;
+      animation-delay: 0s;
+    }
+
+    .indicator span:nth-child(2) {
+      top: -15px;
+      left: -15px;
+      animation-delay: 0.2s;
+    }
+
+    .indicator span:nth-child(3) {
+      top: 0;
+      left: 0;
+      animation-delay: 0.4s;
+    }
+
+    .indicator span:nth-child(4) {
+      top: 15px;
+      left: 15px;
+      animation-delay: 0.6s;
+    }
+
+    .indicator span:nth-child(5) {
+      top: 30px;
+      left: 30px;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes animate {
+      0% {
+        border-color: #fff;
+        transform: translate(0, 0);
+      }
+      20% {
+        border-color: #fff;
+        transform: translate(15px, 15px);
+      }
+      20.1%, 100% {
+        border-color: #ffd64a;
+      }
+    }
+
+    /* Provided styles for future SVG or iframe */
+    .path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: dash 3s linear forwards;
+      animation-iteration-count: 1;
+      animation-delay: 1s;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .dashed {
+      stroke-dasharray: 5, 12;
+    }
+
+    #arrow {
+      animation: arrow 2s linear forwards;
+      opacity: 0;
+    }
+
+    @keyframes arrow {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .ifrm {
+      border: none;
+      width: 100%;
+      margin-top: 50px;
+    }
+
     @media (max-width: 768px) {
-      .shop-now-btn {
-        font-size: 1.4rem;
-        padding: 10px 45px;
+      canvas {
+        transform: scale(0.8);
       }
 
       .pet {
         width: 60px;
         height: 60px;
       }
+
+      .logo {
+        width: 80px;
+      }
+
+      .click-arrows {
+        top: -35px; /* Adjusted for smaller canvas */
+      }
+
+      .arrow {
+        width: 15px;
+        height: 15px;
+        border-width: 2px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .indicator {
+        width: 40px;
+        height: 40px;
+        top: -65px; /* Adjusted for smaller canvas */
+      }
+
+      .indicator span:nth-child(1) {
+        top: -24px;
+        left: -24px;
+      }
+
+      .indicator span:nth-child(2) {
+        top: -12px;
+        left: -12px;
+      }
+
+      .indicator span:nth-child(3) {
+        top: 0;
+        left: 0;
+      }
+
+      .indicator span:nth-child(4) {
+        top: 12px;
+        left: 12px;
+      }
+
+      .indicator span:nth-child(5) {
+        top: 24px;
+        left: 24px;
+      }
     }
 
     @media (max-width: 576px) {
-      .shop-now-btn {
-        font-size: 1.2rem;
-        padding: 8px 35px;
+      canvas {
+        transform: scale(0.6);
+      }
+
+      .logo {
+        width: 60px;
+      }
+
+      .click-arrows {
+        top: -30px; /* Adjusted for smaller canvas */
+      }
+
+      .arrow {
+        width: 12px;
+        height: 12px;
+        border-width: 2px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+      }
+
+      .indicator {
+        width: 30px;
+        height: 30px;
+        top: -50px; /* Adjusted for smaller canvas */
+      }
+
+      .indicator span:nth-child(1) {
+        top: -18px;
+        left: -18px;
+      }
+
+      .indicator span:nth-child(2) {
+        top: -9px;
+        left: -9px;
+      }
+
+      .indicator span:nth-child(3) {
+        top: 0;
+        left: 0;
+      }
+
+      .indicator span:nth-child(4) {
+        top: 9px;
+        left: 9px;
+      }
+
+      .indicator span:nth-child(5) {
+        top: 18px;
+        left: 18px;
       }
     }
   </style>
@@ -291,10 +502,25 @@
     </div>
   </div>
 
+  <!-- ZenoPets Logo -->
+  <img src="assets/zenopets.png" alt="ZenoPets Logo" class="logo" />
+
   <!-- Main Content -->
   <div class="main-content">
     <a href="https://dhakaknots.pythonanywhere.com" aria-label="Shop Now for ZenoPets">
-      <button class="shop-now-btn" onclick="handleShopNowClick(event)">Shop Now</button>
+      <div class="indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <canvas></canvas>
+      <div class="click-arrows">
+        <div class="arrow"></div>
+        <div class="arrow"></div>
+        <div class="arrow"></div>
+      </div>
     </a>
     <div class="pet cat cat1"></div>
     <div class="pet cat cat2"></div>
@@ -306,6 +532,219 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
   <script>
+    class LiquidButton {
+      constructor() {
+        this.tension = 0.4;
+        this.width = 260;
+        this.height = 75;
+        this.margin = 50;
+        this.padding = 17;
+        this.hoverFactor = -0.1;
+        this.gap = 5;
+        this.forceFactor = 0.2;
+
+        // Two pet-themed colors for button only
+        this.colors = [
+          { color1: '#FFC107', color2: '#4ade80', color3: '#22c55e' }, // Yellow, Green, Darker Green
+          { color1: '#4ade80', color2: '#FFC107', color3: '#FF1744' } // Green, Yellow, Red-Pink
+        ];
+        this.colorIndex = 0;
+        this.color1 = this.colors[0].color1;
+        this.color2 = this.colors[0].color2;
+        this.color3 = this.colors[0].color3;
+        this.textColor = '#000000'; // Black
+
+        this.text = 'SHOP NOW';
+        this.canvas = document.querySelector('canvas');
+        this.context = this.canvas.getContext('2d');
+        this.touches = [];
+        this.noise = 0;
+
+        this.layers = [
+          { points: [], viscosity: 0.5, mouseForce: 100, forceLimit: 2 },
+          { points: [], viscosity: 0.8, mouseForce: 150, forceLimit: 3 }
+        ];
+
+        this.canvas.addEventListener('mousemove', this.mousemove);
+        this.canvas.addEventListener('mouseout', this.mouseout);
+        this.canvas.addEventListener('click', this.handleClick.bind(this));
+
+        this.initOrigins();
+        this.animate();
+        this.updateBackground();
+      }
+
+      get mousemove() {
+        return e => {
+          const rect = this.canvas.getBoundingClientRect();
+          this.touches = [{ x: e.clientX - rect.left, y: e.clientY - rect.top, z: 0, force: 1 }];
+        };
+      }
+
+      get mouseout() {
+        return () => this.touches = [];
+      }
+
+      get raf() {
+        return this.__raf || (this.__raf = (
+          window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          function (callback) { setTimeout(callback, 10); }
+        ).bind(window));
+      }
+
+      handleClick(event) {
+        event.preventDefault();
+        this.colorIndex = (this.colorIndex + 1) % this.colors.length;
+        this.color1 = this.colors[this.colorIndex].color1;
+        this.color2 = this.colors[this.colorIndex].color2;
+        this.color3 = this.colors[this.colorIndex].color3;
+        document.querySelector('.main-content').classList.remove('visible');
+        document.querySelector('.loader-container').classList.remove('hidden');
+        setTimeout(() => {
+          window.location.href = 'https://dhakaknots.pythonanywhere.com';
+        }, 2000); // 2-second loader before redirect
+      }
+
+      updateBackground() {
+        document.body.style.background = `url('assets/pet-background.jpg') no-repeat center center fixed`;
+        document.body.style.backgroundSize = 'cover';
+      }
+
+      distance(p1, p2) {
+        return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+      }
+
+      update() {
+        for (let layer of this.layers) {
+          for (let point of layer.points) {
+            const dx = point.ox - point.x + (Math.random() - 0.5) * this.noise;
+            const dy = point.oy - point.y + (Math.random() - 0.5) * this.noise;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            const f = d * this.forceFactor;
+            point.vx += f * (dx / d || 0);
+            point.vy += f * (dy / d || 0);
+
+            for (let touch of this.touches) {
+              let mouseForce = layer.mouseForce;
+              if (
+                touch.x > this.margin &&
+                touch.x < this.margin + this.width &&
+                touch.y > this.margin &&
+                touch.y < this.margin + this.height
+              ) {
+                mouseForce *= -this.hoverFactor;
+              }
+              const mx = point.x - touch.x;
+              const my = point.y - touch.y;
+              const md = Math.sqrt(mx * mx + my * my);
+              const mf = Math.max(-layer.forceLimit, Math.min(layer.forceLimit, mouseForce * touch.force / md));
+              point.vx += mf * (mx / md || 0);
+              point.vy += mf * (my / md || 0);
+            }
+
+            point.vx *= layer.viscosity;
+            point.vy *= layer.viscosity;
+            point.x += point.vx;
+            point.y += point.vy;
+          }
+
+          for (let i = 0; i < layer.points.length; i++) {
+            const prev = layer.points[(i - 1 + layer.points.length) % layer.points.length];
+            const point = layer.points[i];
+            const next = layer.points[(i + 1) % layer.points.length];
+            const dPrev = this.distance(point, prev);
+            const dNext = this.distance(point, next);
+            const line = { x: next.x - prev.x, y: next.y - prev.y };
+            const dLine = Math.sqrt(line.x * line.x + line.y * line.y);
+            point.cPrev = {
+              x: point.x - line.x / dLine * dPrev * this.tension,
+              y: point.y - line.y / dLine * dPrev * this.tension
+            };
+            point.cNext = {
+              x: point.x + line.x / dLine * dNext * this.tension,
+              y: point.y + line.y / dLine * dNext * this.tension
+            };
+          }
+        }
+      }
+
+      draw() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        for (let i = 0; i < this.layers.length; i++) {
+          const layer = this.layers[i];
+          if (i === 1 && this.touches.length) {
+            const { x: gx, y: gy } = this.touches[0];
+            layer.color = this.context.createRadialGradient(gx, gy, this.height * 2, gx, gy, 0);
+            layer.color.addColorStop(0, this.color2);
+            layer.color.addColorStop(1, this.color3);
+          } else {
+            layer.color = this.color1;
+          }
+
+          const points = layer.points;
+          this.context.fillStyle = layer.color;
+          this.context.beginPath();
+          this.context.moveTo(points[0].x, points[0].y);
+          for (let j = 1; j < points.length; j++) {
+            const p0 = points[j];
+            const p1 = points[(j + 1) % points.length];
+            this.context.bezierCurveTo(p0.cNext.x, p0.cNext.y, p1.cPrev.x, p1.cPrev.y, p1.x, p1.y);
+          }
+          this.context.fill();
+        }
+
+        this.context.fillStyle = this.textColor;
+        this.context.font = `bold ${this.height - this.padding * 2}px sans-serif`;
+        this.context.textAlign = 'center';
+        this.context.textBaseline = 'middle';
+        this.context.fillText(this.text, this.canvas.width / 2, this.canvas.height / 2);
+      }
+
+      animate() {
+        this.raf(() => {
+          this.update();
+          this.draw();
+          this.animate();
+        });
+      }
+
+      createPoint(x, y) {
+        return { x, y, ox: x, oy: y, vx: 0, vy: 0 };
+      }
+
+      initOrigins() {
+        this.canvas.width = this.width + this.margin * 2;
+        this.canvas.height = this.height + this.margin * 2;
+
+        for (let layer of this.layers) {
+          const points = [];
+          for (let x = ~~(this.height / 2); x < this.width - ~~(this.height / 2); x += this.gap) {
+            points.push(this.createPoint(x + this.margin, this.margin));
+          }
+          for (let alpha = ~~(this.height * 1.25); alpha >= 0; alpha -= this.gap) {
+            const angle = Math.PI / ~~(this.height * 1.25) * alpha;
+            points.push(this.createPoint(
+              Math.sin(angle) * this.height / 2 + this.margin + this.width - this.height / 2,
+              Math.cos(angle) * this.height / 2 + this.margin + this.height / 2
+            ));
+          }
+          for (let x = this.width - ~~(this.height / 2) - 1; x >= ~~(this.height / 2); x -= this.gap) {
+            points.push(this.createPoint(x + this.margin, this.margin + this.height));
+          }
+          for (let alpha = 0; alpha <= ~~(this.height * 1.25); alpha += this.gap) {
+            const angle = Math.PI / ~~(this.height * 1.25) * alpha;
+            points.push(this.createPoint(
+              this.height - Math.sin(angle) * this.height / 2 + this.margin - this.height / 2,
+              Math.cos(angle) * this.height / 2 + this.margin + this.height / 2
+            ));
+          }
+          layer.points = points;
+        }
+      }
+    }
+
     // Loader on page load
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -313,16 +752,6 @@
         document.querySelector('.main-content').classList.add('visible');
       }, 2000); // 2-second loader
     });
-
-    // Handle Shop Now button click
-    function handleShopNowClick(event) {
-      event.preventDefault(); // Prevent immediate navigation
-      document.querySelector('.main-content').classList.remove('visible');
-      document.querySelector('.loader-container').classList.remove('hidden');
-      setTimeout(() => {
-        window.location.href = 'https://dhakaknots.pythonanywhere.com';
-      }, 2000); // 2-second loader before redirect
-    }
 
     // Pet hover effects
     document.querySelectorAll('.pet').forEach(pet => {
@@ -335,6 +764,9 @@
         pet.style.transform = 'scale(1)';
       });
     });
+
+    // Initialize liquid button
+    new LiquidButton();
   </script>
 </body>
 </html>
